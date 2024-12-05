@@ -11,10 +11,15 @@ And a button to append the drone rig.
 # How To Use
 
 Install the zip file as you would with any addon
+
 Click Add Drone
+
 Click Monitor Controller
+
 Click Start Recording to record your inputs each frames
+
 Click Stop Recording to stop. This will also cancel the monitoring of inputs.
 
 You do not have to Start Recording to fly the drone. Just press play on the timeline to be able to fly it in the scene.
+
 You can change physics parameters on the Drone object Geometry Nodes modifier.
