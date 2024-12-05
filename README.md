@@ -25,3 +25,11 @@ You do not have to Start Recording to fly the drone. Just press play on the time
 You can change physics parameters on the Drone object Geometry Nodes modifier. 
 
 You can manually rotate the camera on the X axis to control the tilt aggressiveness. 
+
+# Controls
+
+Left Joystick Y -> Throttle
+Left Joystick X -> Yaw
+Right Joystick Y -> Pitch
+Right Joystick X -> Roll
+
