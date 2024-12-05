@@ -12,10 +12,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import bpy, os, sys, subprocess
-from . import record
+from . import record, append
 
 import XInput
-
 
 from bpy.types import (Operator, Panel, AddonPreferences)   
 
@@ -230,7 +229,7 @@ def register():
     from bpy.utils import register_class
     for cls in classes:
         register_class(cls)
-    record.register_keyframing(XR_PT_panel)
+    append.register_append(record.register_keyframing(XR_PT_panel))
 
 def unregister():
     del bpy.types.WindowManager.modal_running
