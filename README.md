@@ -28,8 +28,8 @@ You can manually rotate the camera on the X axis to control the tilt aggressiven
 
 # Controls
 
-Left Joystick Y -> Throttle
-Left Joystick X -> Yaw
-Right Joystick Y -> Pitch
-Right Joystick X -> Roll
+Left Joystick Y -> Throttle  
+Left Joystick X -> Yaw  
+Right Joystick Y -> Pitch  
+Right Joystick X -> Roll  
 
