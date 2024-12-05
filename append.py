@@ -16,10 +16,12 @@ import bpy, os
 # Operator to append DroneCam
 class OBJECT_OT_AppendDroneCam(bpy.types.Operator):
     bl_idname = "object.append_dronecam"
-    bl_label = "Stop Recording"
+    bl_label = "Add Drone"
     
     def execute(self, context):
-
+        import os  # Ensure you have the import
+        import bpy  # Ensure Blender's module is available
+        
         # Get the path to the current addon folder
         addon_dir = os.path.dirname(os.path.abspath(__file__))
         
@@ -28,8 +30,8 @@ class OBJECT_OT_AppendDroneCam(bpy.types.Operator):
         
         # Ensure the file exists
         if not os.path.isfile(blend_file_path):
-            print(f"Blend file not found: {blend_file_path}")
-            return
+            self.report({'ERROR'}, f"Blend file not found: {blend_file_path}")
+            return {'CANCELLED'}
 
         collection_name = "DroneCam"
 
@@ -38,19 +40,19 @@ class OBJECT_OT_AppendDroneCam(bpy.types.Operator):
             if collection_name in data_from.collections:
                 data_to.collections = [collection_name]
             else:
-                print(f"Collection '{collection_name}' not found in {blend_file_path}")
-                return
+                self.report({'ERROR'}, f"Collection '{collection_name}' not found in {blend_file_path}")
+                return {'CANCELLED'}
 
         # Append the collection to the current scene
         for collection in data_to.collections:
             if collection.name == collection_name:
                 bpy.context.scene.collection.children.link(collection)
-                print(f"'{collection_name}' has been added to the current scene.")
-                return
+                self.report({'INFO'}, f"'{collection_name}' has been added to the current scene.")
+                return {'FINISHED'}
 
-        print(f"Failed to append '{collection_name}'.")
+        self.report({'ERROR'}, f"Failed to append '{collection_name}'.")
+        return {'CANCELLED'}
 
-        return {'FINISHED'}
 
 
 def register_append(cls):
@@ -58,16 +60,16 @@ def register_append(cls):
     original_draw = cls.draw
 
     def modified_draw(self, context):
-        # Call the original draw method first
-        original_draw(self, context)
-        
+
         # Add keyframing buttons
         layout = self.layout
         col = layout.column()
-        col.separator()
-        col.label(text="Add DroneCam")
         row = col.row()
+        row.scale_y = 3
         row.operator("object.append_dronecam")
+
+        # Call the original draw method first
+        original_draw(self, context)
 
     # Replace the draw method
     cls.draw = modified_draw
@@ -75,6 +77,6 @@ def register_append(cls):
     # Register the operators
     bpy.utils.register_class(OBJECT_OT_AppendDroneCam)
 
-def unregister_keyframing(cls):
+def unregister_append(cls):
     # Unregister the operators
     bpy.utils.unregister_class(OBJECT_OT_AppendDroneCam)

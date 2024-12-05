@@ -50,6 +50,7 @@ def create_reader():
 #----------------------------------------------------------OPERATORS-----------------------------------------------------------#
 #------------------------------------------------------------------------------------------------------------------------------#
 
+running_monitor_controller = None 
 
 class XR_OT_monitor_controller(Operator):
     bl_idname = "wm.monitor_controller"
@@ -58,16 +59,16 @@ class XR_OT_monitor_controller(Operator):
     bl_options = {'REGISTER'}
 
     _timer = None
+    _should_stop = False  # Add this flag to track external stop requests
     
     def modal(self, context, event):
         xinput_reader_empty = get_reader()
 
-        if event.type in {'RIGHTMOUSE', 'ESC'}:
+        if event.type in {'RIGHTMOUSE', 'ESC'} or self._should_stop:
             self.cancel(context)
             xinput_reader_empty.location = xinput_reader_empty.location
             return {'CANCELLED'}
         
-
         #Controller inputs
         state = XInput.get_state(0)
 
@@ -100,6 +101,9 @@ class XR_OT_monitor_controller(Operator):
         
         xinput_reader_empty = create_reader()
 
+        global running_monitor_controller
+        running_monitor_controller = self
+
         wm = context.window_manager
         self._timer = wm.event_timer_add(0.1, window=context.window)
         wm.modal_handler_add(self)
@@ -109,6 +113,10 @@ class XR_OT_monitor_controller(Operator):
         return {'RUNNING_MODAL'}
     
     def cancel(self, context):
+        
+        global running_monitor_controller
+        running_monitor_controller = None  # Clear the reference on cancel
+
         wm = context.window_manager
         wm.event_timer_remove(self._timer)
         wm.modal_running = False
@@ -179,23 +187,23 @@ class XR_OT_drive_nodegroup(Operator):
 
 
 class XR_PT_panel(Panel):
-    bl_label = "XInput Reader"
-    bl_idname = "OBJECT_PT_XInput_panel"
+    bl_label = "DroneCam"
+    bl_idname = "OBJECT_PT_DroneCam_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = "XInput"
+    bl_category = "DroneCam"
 
     def draw(self, context):
         layout = self.layout
         col = layout.column()
         row = col.row()
-        row.scale_y = 3
+        #row.scale_y = 3
         if bpy.context.window_manager.modal_running == False:
             row.operator("wm.monitor_controller")
         else:
             row.operator("wm.monitor_controller", text="Right Click or Esc to Stop", icon="ERROR")
         col.separator()
-        col.operator("wm.drive_nodegroup")
+        #col.operator("wm.drive_nodegroup")
 
         xinput_reader_empty = get_reader()
         if xinput_reader_empty is not None:
@@ -229,7 +237,9 @@ def register():
     from bpy.utils import register_class
     for cls in classes:
         register_class(cls)
-    append.register_append(record.register_keyframing(XR_PT_panel))
+
+    record.register_keyframing(XR_PT_panel)
+    append.register_append(XR_PT_panel)
 
 def unregister():
     del bpy.types.WindowManager.modal_running
@@ -237,3 +247,6 @@ def unregister():
     from bpy.utils import unregister_class
     for cls in reversed(classes):
         unregister_class(cls)
+
+    record.unregister_keyframing(XR_PT_panel)
+    append.unregister_append(XR_PT_panel)

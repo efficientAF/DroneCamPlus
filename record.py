@@ -13,34 +13,12 @@
 
 import bpy
 
+from .__init__ import running_monitor_controller
+
 # Flag to enable/disable keyframing
 is_recording_active = False
 
-# Properties to keyframe
-properties = [
-    "A",
-    "B",
-    "X",
-    "Y",
-    "DPadUp",
-    "DPadDown",
-    "DPadLeft",
-    "DPadRight",
-    "Start",
-    "Back",
-    "LeftThumb",
-    "LeftThumbX",
-    "LeftThumbY",
-    "RightThumb",
-    "RightThumbX",
-    "RightThumbY",
-    "LeftShoulder",
-    "RightShoulder",
-    "LeftTrigger",
-    "RightTrigger"
-]
-
-def keyframe_xinput_properties(scene, properties):
+def keyframe_xinput_properties(scene):
     # Only keyframe if the flag is active
     if not is_recording_active:
         return
@@ -54,6 +32,30 @@ def keyframe_xinput_properties(scene, properties):
     
     # Get the current frame
     current_frame = scene.frame_current
+
+    # Properties to keyframe
+    properties = [
+        "A",
+        "B",
+        "X",
+        "Y",
+        "DPadUp",
+        "DPadDown",
+        "DPadLeft",
+        "DPadRight",
+        "Start",
+        "Back",
+        "LeftThumb",
+        "LeftThumbX",
+        "LeftThumbY",
+        "RightThumb",
+        "RightThumbX",
+        "RightThumbY",
+        "LeftShoulder",
+        "RightShoulder",
+        "LeftTrigger",
+        "RightTrigger"
+    ]
     
     # Keyframe each property
     for prop in properties:
@@ -83,18 +85,6 @@ class OBJECT_OT_StartRecording(bpy.types.Operator):
         if keyframe_xinput_properties not in bpy.app.handlers.frame_change_pre:
             bpy.app.handlers.frame_change_pre.append(keyframe_xinput_properties)
 
-        # Get the XInput Reader object
-        try:
-            xinput_obj = bpy.data.objects["XInput Reader"]
-        except KeyError:
-            print("XInput Reader object not found!")
-            return
-
-        try:
-            xinput_obj.animation_data_clear()
-        except AttributeError:
-            print("Could not clear recording data")
-            return
         
         is_recording_active = True
         bpy.ops.screen.animation_play()
@@ -102,7 +92,6 @@ class OBJECT_OT_StartRecording(bpy.types.Operator):
         print("DroneCam recording activated!")
         return {'FINISHED'}
 
-# Operator to stop keyframing
 class OBJECT_OT_StopRecording(bpy.types.Operator):
     bl_idname = "object.stop_recording"
     bl_label = "Stop Recording"
@@ -111,6 +100,12 @@ class OBJECT_OT_StopRecording(bpy.types.Operator):
         global is_recording_active
         is_recording_active = False
 
+        # Stop the monitor controller if it's running
+        global running_monitor_controller
+        if running_monitor_controller:
+            running_monitor_controller._should_stop = True  # Request the modal operator to stop
+
+        # Stop animation playback if it is running
         if bpy.context.screen.is_animation_playing:
             bpy.ops.screen.animation_play()  # This stops playback
 

@@ -2,11 +2,11 @@ schema_version = "1.0.0"
 
 # Example of manifest file for a Blender extension
 # Change the values according to your extension
-id = "xinput_reader"
+id = "dronecam"
 version = "0.1.0"
-name = "XInput Reader"
+name = "DroneCam"
 tagline = "Use the XInput library with a gamepad"
-maintainer = "Erindale Woodford"
+maintainer = "Arthur Blaquart (@globglob)"
 # Supported types: "add-on", "theme"
 type = "add-on"
 
