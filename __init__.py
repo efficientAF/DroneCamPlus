@@ -12,7 +12,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import bpy, os, sys, subprocess
-from . import record, append
 
 import XInput
 
@@ -44,27 +43,121 @@ def create_reader():
         # bpy.context.scene.collection.objects.link(xinput_reader_empty)
     return xinput_reader_empty
 
+# Flag to enable/disable keyframing
+is_recording_active = False
+
+def keyframe_xinput_properties(scene):
+    # Only keyframe if the flag is active
+    if not is_recording_active:
+        return
+    
+    # Get the XInput Reader object
+    try:
+        xinput_obj = bpy.data.objects["XInput Reader"]
+    except KeyError:
+        print("XInput Reader object not found!")
+        return
+    
+    # Get the current frame
+    current_frame = scene.frame_current
+
+    # Properties to keyframe
+    properties = [
+        "A",
+        "B",
+        "X",
+        "Y",
+        "DPadUp",
+        "DPadDown",
+        "DPadLeft",
+        "DPadRight",
+        "Start",
+        "Back",
+        "LeftThumb",
+        "LeftThumbX",
+        "LeftThumbY",
+        "RightThumb",
+        "RightThumbX",
+        "RightThumbY",
+        "LeftShoulder",
+        "RightShoulder",
+        "LeftTrigger",
+        "RightTrigger"
+    ]
+    
+    # Keyframe each property
+    for prop in properties:
+        try:
+            current_value = xinput_obj[prop]
+            
+            # Insert a keyframe for the property
+            xinput_obj.keyframe_insert(
+                data_path=f'["{prop}"]', 
+                frame=current_frame
+            )
+                
+            print(f"Keyframed {prop} at frame {current_frame}: {current_value}")
+        
+        except (KeyError, TypeError):
+            print(f"Property {prop} not found in XInput Reader!")
+
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
 #----------------------------------------------------------OPERATORS-----------------------------------------------------------#
 #------------------------------------------------------------------------------------------------------------------------------#
 
-running_monitor_controller = None 
 
-class XR_OT_monitor_controller(Operator):
-    bl_idname = "wm.monitor_controller"
-    bl_label = "Monitor Controller"
-    bl_description = "Monitors controller input"
+class OBJECT_OT_AppendDroneCam(bpy.types.Operator):
+    bl_idname = "object.append_dronecam"
+    bl_label = "Add DroneCam"
+    
+    def execute(self, context):
+        
+        # Get the path to the current addon folder
+        addon_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Define the path to the blend file
+        blend_file_path = os.path.join(addon_dir, "blend", "DroneCam.blend")
+        
+        # Ensure the file exists
+        if not os.path.isfile(blend_file_path):
+            self.report({'ERROR'}, f"Blend file not found: {blend_file_path}")
+            return {'CANCELLED'}
+
+        collection_name = "DroneCam"
+
+        with bpy.data.libraries.load(blend_file_path, link=False) as (data_from, data_to):
+            # Check if the desired collection exists in the blend file
+            if collection_name in data_from.collections:
+                data_to.collections = [collection_name]
+            else:
+                self.report({'ERROR'}, f"Collection '{collection_name}' not found in {blend_file_path}")
+                return {'CANCELLED'}
+
+        # Append the collection to the current scene
+        for collection in data_to.collections:
+            if collection.name == collection_name:
+                bpy.context.scene.collection.children.link(collection)
+                self.report({'INFO'}, f"'{collection_name}' has been added to the current scene.")
+                return {'FINISHED'}
+
+        self.report({'ERROR'}, f"Failed to append '{collection_name}'.")
+        return {'CANCELLED'}
+
+
+class XR_OT_DroneCamStartStop(Operator):
+    bl_idname = "wm.dronecamstartstop"
+    bl_label = "Start/Stop"
+    bl_description = "Start and Stop DroneCam recording gamepad inputs"
     bl_options = {'REGISTER'}
 
     _timer = None
-    _should_stop = False  # Add this flag to track external stop requests
     
     def modal(self, context, event):
         xinput_reader_empty = get_reader()
 
-        if event.type in {'RIGHTMOUSE', 'ESC'} or self._should_stop:
+        if event.type in {'RIGHTMOUSE', 'ESC'}:
             self.cancel(context)
             xinput_reader_empty.location = xinput_reader_empty.location
             return {'CANCELLED'}
@@ -101,8 +194,16 @@ class XR_OT_monitor_controller(Operator):
         
         xinput_reader_empty = create_reader()
 
-        global running_monitor_controller
-        running_monitor_controller = self
+        global is_recording_active
+        
+        # Add the keyframing function to the frame change handler if not already there
+        if keyframe_xinput_properties not in bpy.app.handlers.frame_change_pre:
+            bpy.app.handlers.frame_change_pre.append(keyframe_xinput_properties)
+        
+        is_recording_active = True
+        bpy.ops.screen.animation_play()
+        
+        print("DroneCam recording activated!")
 
         wm = context.window_manager
         self._timer = wm.event_timer_add(0.1, window=context.window)
@@ -114,72 +215,20 @@ class XR_OT_monitor_controller(Operator):
     
     def cancel(self, context):
         
-        global running_monitor_controller
-        running_monitor_controller = None  # Clear the reference on cancel
+        global is_recording_active
+        is_recording_active = False
+
+        # Stop animation playback if it is running
+        if bpy.context.screen.is_animation_playing:
+            bpy.ops.screen.animation_play()  # This stops playback
+        
+
+        print("DroneCam recording stopped.")
 
         wm = context.window_manager
         wm.event_timer_remove(self._timer)
         wm.modal_running = False
-
-
-class XR_OT_drive_nodegroup(Operator):
-    bl_idname = "wm.drive_nodegroup"
-    bl_label = "Drive Nodegroup"
-    bl_description = "Drive nodegroup from controller"
-    bl_options = {'REGISTER'}
-
-    def execute(self, context):
-        xinput_reader_empty = get_reader()
-        controller_inputs = xinput_reader_empty.items()
-
-        xinput_nodegroup_name = 'XInput Reader'
-        xinput_nodegroup = bpy.data.node_groups.get(xinput_nodegroup_name)
-
-        #delete nodegroup if it exists
-        if xinput_nodegroup is None:
-            xinput_nodegroup = bpy.data.node_groups.new(xinput_nodegroup_name, 'GeometryNodeTree')
-        
-        #get output node
-        output_node = None
-        for node in xinput_nodegroup.nodes:
-            if node.type == 'GROUP_OUTPUT':
-                output_node = node
-                break
-
-        #create output node if none exists
-        if output_node is None:
-            output_node = xinput_nodegroup.nodes.new('NodeGroupOutput')
-            output_node.location = (0, 0)
-
-        for inputs in controller_inputs:
-            if type(xinput_reader_empty[inputs[0]]) == float or int or bool:
-                if bpy.app.version[0] == 3:
-                    if inputs[0] not in xinput_nodegroup.outputs:
-                        xinput_nodegroup.outputs.new("NodeSocketFloat", inputs[0])
-                if bpy.app.version[0] == 4:
-                    if inputs[0] not in xinput_nodegroup.interface.items_tree:
-                        xinput_nodegroup.interface.new_socket(inputs[0], in_out="OUTPUT", socket_type='NodeSocketFloat')
-
-                #set up driver
-                output_socket = output_node.inputs[inputs[0]]
-                fcurve = output_socket.driver_add('default_value')
-                driver = fcurve.driver
-                driver.type = 'AVERAGE'
-                if len(driver.variables) == 0:
-                    variable = driver.variables.new()
-                else:
-                    variable = driver.variables[0]
-                variable.name = inputs[0]
-                variable.type = 'SINGLE_PROP'
-                targets = variable.targets[0]
-                targets.id_type = 'OBJECT'
-                targets.id = xinput_reader_empty
-                targets.data_path = f'["{inputs[0]}"]'
-                driver.expression = 'var'
-
-
-        return {'FINISHED'}
-
+ 
 
 #------------------------------------------------------------------------------------------------------------------------------#
 #------------------------------------------------------------PANELS------------------------------------------------------------#
@@ -197,13 +246,13 @@ class XR_PT_panel(Panel):
         layout = self.layout
         col = layout.column()
         row = col.row()
-        #row.scale_y = 3
+        row.scale_y = 3
+        row.operator("object.append_dronecam")
         if bpy.context.window_manager.modal_running == False:
-            row.operator("wm.monitor_controller")
+            row.operator("wm.dronecamstartstop")
         else:
-            row.operator("wm.monitor_controller", text="Right Click or Esc to Stop", icon="ERROR")
+            row.operator("wm.dronecamstartstop", text="Right Click or Esc to Stop", icon="ERROR")
         col.separator()
-        #col.operator("wm.drive_nodegroup")
 
         xinput_reader_empty = get_reader()
         if xinput_reader_empty is not None:
@@ -225,8 +274,8 @@ class XR_PT_panel(Panel):
 
 
 classes = (
-    XR_OT_monitor_controller,
-    XR_OT_drive_nodegroup,
+    OBJECT_OT_AppendDroneCam,
+    XR_OT_DroneCamStartStop,
     XR_PT_panel,
     XR_PT_preferences_panel,
 )
@@ -238,15 +287,9 @@ def register():
     for cls in classes:
         register_class(cls)
 
-    record.register_keyframing(XR_PT_panel)
-    append.register_append(XR_PT_panel)
-
 def unregister():
     del bpy.types.WindowManager.modal_running
 
     from bpy.utils import unregister_class
     for cls in reversed(classes):
         unregister_class(cls)
-
-    record.unregister_keyframing(XR_PT_panel)
-    append.unregister_append(XR_PT_panel)
