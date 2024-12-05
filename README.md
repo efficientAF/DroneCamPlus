@@ -1,11 +1,27 @@
-# XinputReader Record
+# DroneCam
 
-This is a fork of https://github.com/Erindale/XinputReader
+This is a Blender addon to fly a camera like a drone using a Xbox360 gamepad as input. 
 
-I've made a drone FPV camera with realistic physics to film inside Blender.
+Why? It's fun, it makes for realistic camera movements, it's fast. Add the drone, click record, fly around the scene, and then render the results.
 
-I use a Xbox 360 gamepad to control it and XInputReader to get the inputs and use them in Geometry Nodes.
+It relies on a Physic Simulation made in Geometry Nodes to handle the flying of the drone that the camera attach to.
 
-I needed a way to replay the inputs to be able to render. Hence the fork.
+DroneCam is a fork of XinputReader: https://github.com/Erindale/XinputReader which handle all the gamepad inputs. 
 
-I'm only maintaining it for me at the moment, so don't expect any kind of polish.
+# How To Use
+
+Install the zip file as you would with any addon
+
+Click Add Drone
+
+Click Monitor Controller
+
+Click Start Recording to record your inputs each frames
+
+Click Stop Recording to stop. This will also cancel the monitoring of inputs.
+
+You do not have to Start Recording to fly the drone. Just press play on the timeline to be able to fly it in the scene.
+
+You can change physics parameters on the Drone object Geometry Nodes modifier. 
+
+You can manually rotate the camera on the X axis to control the tilt aggressiveness. 
