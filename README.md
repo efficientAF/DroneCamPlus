@@ -10,21 +10,17 @@ DroneCam is a fork of XinputReader: https://github.com/Erindale/XinputReader whi
 
 # How To Use
 
-Install the zip file as you would with any addon
+Install the zip file as you would with any addon.
 
-Click Add Drone
+Click Add DroneCam.
 
-Click Monitor Controller
+Click Start/Stop to start recording and flying the drone.
 
-Click Start Recording to record your inputs each frames
-
-Click Stop Recording to stop. This will also cancel the monitoring of inputs.
-
-You do not have to Start Recording to fly the drone. Just press play on the timeline to be able to fly it in the scene.
+**Right Click** Start/Stop to end the recording.
 
 You can change physics parameters on the Drone object Geometry Nodes modifier. 
 
-You can manually rotate the camera on the X axis to control the tilt aggressiveness. 
+You can manually rotate the camera on the X axis to control the tilt aggressiveness. It is at a 20 degree angle by default.
 
 # Controls
 
