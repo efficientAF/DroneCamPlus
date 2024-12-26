@@ -62,27 +62,34 @@ def keyframe_xinput_properties(scene):
     current_frame = scene.frame_current
 
     # Properties to keyframe
+    # properties = [
+    #     "A",
+    #     "B",
+    #     "X",
+    #     "Y",
+    #     "DPadUp",
+    #     "DPadDown",
+    #     "DPadLeft",
+    #     "DPadRight",
+    #     "Start",
+    #     "Back",
+    #     "LeftThumb",
+    #     "LeftThumbX",
+    #     "LeftThumbY",
+    #     "RightThumb",
+    #     "RightThumbX",
+    #     "RightThumbY",
+    #     "LeftShoulder",
+    #     "RightShoulder",
+    #     "LeftTrigger",
+    #     "RightTrigger"
+    # ]
+
     properties = [
-        "A",
-        "B",
-        "X",
-        "Y",
-        "DPadUp",
-        "DPadDown",
-        "DPadLeft",
-        "DPadRight",
-        "Start",
-        "Back",
-        "LeftThumb",
         "LeftThumbX",
         "LeftThumbY",
-        "RightThumb",
         "RightThumbX",
-        "RightThumbY",
-        "LeftShoulder",
-        "RightShoulder",
-        "LeftTrigger",
-        "RightTrigger"
+        "RightThumbY"
     ]
     
     # Keyframe each property
@@ -165,26 +172,26 @@ class XR_OT_DroneCamStartStop(Operator):
         #Controller inputs
         state = XInput.get_state(0)
 
-        xinput_reader_empty["A"] = XInput.get_button_values(state)['A']
-        xinput_reader_empty["B"] = XInput.get_button_values(state)['B']
-        xinput_reader_empty["X"] = XInput.get_button_values(state)['X']
-        xinput_reader_empty["Y"] = XInput.get_button_values(state)['Y']
-        xinput_reader_empty["DPadUp"] = XInput.get_button_values(state)['DPAD_UP']
-        xinput_reader_empty["DPadDown"] = XInput.get_button_values(state)['DPAD_DOWN']
-        xinput_reader_empty["DPadLeft"] = XInput.get_button_values(state)['DPAD_LEFT']
-        xinput_reader_empty["DPadRight"] = XInput.get_button_values(state)['DPAD_RIGHT']
-        xinput_reader_empty["Start"] = XInput.get_button_values(state)['START']
-        xinput_reader_empty["Back"] = XInput.get_button_values(state)['BACK']
-        xinput_reader_empty["LeftThumb"] = XInput.get_button_values(state)['LEFT_THUMB']
+        # xinput_reader_empty["A"] = XInput.get_button_values(state)['A']
+        # xinput_reader_empty["B"] = XInput.get_button_values(state)['B']
+        # xinput_reader_empty["X"] = XInput.get_button_values(state)['X']
+        # xinput_reader_empty["Y"] = XInput.get_button_values(state)['Y']
+        # xinput_reader_empty["DPadUp"] = XInput.get_button_values(state)['DPAD_UP']
+        # xinput_reader_empty["DPadDown"] = XInput.get_button_values(state)['DPAD_DOWN']
+        # xinput_reader_empty["DPadLeft"] = XInput.get_button_values(state)['DPAD_LEFT']
+        # xinput_reader_empty["DPadRight"] = XInput.get_button_values(state)['DPAD_RIGHT']
+        # xinput_reader_empty["Start"] = XInput.get_button_values(state)['START']
+        # xinput_reader_empty["Back"] = XInput.get_button_values(state)['BACK']
+        # xinput_reader_empty["LeftThumb"] = XInput.get_button_values(state)['LEFT_THUMB']
         xinput_reader_empty["LeftThumbX"] = XInput.get_thumb_values(state)[0][0]
         xinput_reader_empty["LeftThumbY"] = XInput.get_thumb_values(state)[0][1]
-        xinput_reader_empty["RightThumb"] = XInput.get_button_values(state)['RIGHT_THUMB']
+        # xinput_reader_empty["RightThumb"] = XInput.get_button_values(state)['RIGHT_THUMB']
         xinput_reader_empty["RightThumbX"] = XInput.get_thumb_values(state)[1][0]
         xinput_reader_empty["RightThumbY"] = XInput.get_thumb_values(state)[1][1]
-        xinput_reader_empty["LeftShoulder"] = XInput.get_button_values(state)['LEFT_SHOULDER']
-        xinput_reader_empty["RightShoulder"] = XInput.get_button_values(state)['RIGHT_SHOULDER']
-        xinput_reader_empty["LeftTrigger"] = XInput.get_trigger_values(state)[0]
-        xinput_reader_empty["RightTrigger"] = XInput.get_trigger_values(state)[1]
+        # xinput_reader_empty["LeftShoulder"] = XInput.get_button_values(state)['LEFT_SHOULDER']
+        # xinput_reader_empty["RightShoulder"] = XInput.get_button_values(state)['RIGHT_SHOULDER']
+        # xinput_reader_empty["LeftTrigger"] = XInput.get_trigger_values(state)[0]
+        # xinput_reader_empty["RightTrigger"] = XInput.get_trigger_values(state)[1]
         
         # trigger scene update
         xinput_reader_empty.location = xinput_reader_empty.location
