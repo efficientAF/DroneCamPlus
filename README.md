@@ -1,6 +1,6 @@
 # DroneCam
 
-This is a Blender addon to fly a camera like a drone using a Xbox360 gamepad as input. 
+This is a Blender addon to fly a camera like a drone using a Xbox360 gamepad as input. Only work on Windows.
 
 Why? It's fun, it makes for realistic camera movements, it's fast. Add the drone, click record, fly around the scene, and then render the results.
 
@@ -10,17 +10,26 @@ DroneCam is a fork of XinputReader: https://github.com/Erindale/XinputReader whi
 
 # How To Use
 
-Install the zip file as you would with any addon.
+Plug the controller and launch Blender
 
-Click Add DroneCam.
+Install the zip file as you would with any addon
 
-Click Start/Stop to start recording and flying the drone.
+Click Add DroneCam
 
-**Right Click** Start/Stop to end the recording.
+Click Start/Stop to start flying and recording inputs. You can click it again to pause.
 
-You can change physics parameters on the Drone object Geometry Nodes modifier. 
+Right Click Start/Stop to stop the recording
 
-You can manually rotate the camera on the X axis to control the tilt aggressiveness. It is at a 20 degree angle by default.
+Play the timeline from the first frame to see the results
+
+You can change physics parameters on the Drone object Geometry Nodes modifier.
+
+You can manually rotate the camera on the X axis to control the tilt aggressiveness.
+
+If things go wrong and it's not working anymore:
+- Delete the DroneCam Collection and all it's content
+- Purge Unused Data (File -> Cleanup)
+- Click the Add DroneCam button and everything should work again
 
 # Controls
 
@@ -28,4 +37,10 @@ Left Joystick Y -> Throttle
 Left Joystick X -> Yaw  
 Right Joystick Y -> Pitch  
 Right Joystick X -> Roll  
+
+# Links
+
+[Gumroad Page for DroneCam](https://globglob.gumroad.com/l/dronecam-blender-addon)
+[Youtube channel](https://www.youtube.com/@globglob3D)
+[Twitter](https://x.com/globglob3D)
 
