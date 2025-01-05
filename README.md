@@ -50,6 +50,8 @@ The DroneCam Plus sidebar provides quick access to the main controls and setting
 
 - **Main Controls**: Start or stop the DroneCam functionality with a single click. If the DroneCam is currently running, the button will indicate how to stop it (Right Click or Esc).
 - **DroneCam Settings**: Access the preferences for configuring the addon.
+- **Rate Settings**: Configure rates using values similar to "Actual" Rates.
+- **Controller Inputs**: Shows the inputs from your controller in real-time.
 
 ### Preferences
 In the Preferences section, you can customize various settings related to input methods and function mappings:
@@ -61,6 +63,7 @@ In the Preferences section, you can customize various settings related to input 
 - Left Thumb X
 - Right Thumb Y
 - Right Thumb X
+  
 - **Channel Mapping**: Configure the functions for each RC channel (up to 18 channels). You can enable or disable channels and assign specific functions to each.
 - **Sensitivity Settings**: Adjust the sensitivity for each control type (RC and XInput) to fine-tune the responsiveness of the controls.
 
