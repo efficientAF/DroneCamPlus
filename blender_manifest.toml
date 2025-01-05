@@ -3,10 +3,10 @@ schema_version = "1.0.0"
 # Example of manifest file for a Blender extension
 # Change the values according to your extension
 id = "dronecam"
-version = "1.0.2"
-name = "DroneCam"
-tagline = "Fly a camera like an FPV drone using an Xbox controller"
-maintainer = "Arthur Blaquart (globglob3d) arthurblaquart@gmail.com"
+version = "2.0.0"
+name = "DroneCam Plus"
+tagline = "Fly a camera like an FPV drone using an Xbox controller or RC Remote via HID"
+maintainer = "Brandon Acree"
 # Supported types: "add-on", "theme"
 type = "add-on"
 
