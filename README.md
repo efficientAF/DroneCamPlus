@@ -66,6 +66,20 @@ In the Preferences section, you can customize various settings related to input 
 
 This UI structure allows for a streamlined experience, making it easy to set up and customize your DroneCam Plus controls according to your preferences.
 
+
+## Future Plans and Enhancements
+
+As development continues, there are several features and improvements planned for **DroneCam Plus**:
+
+- **Throttle Rate Implementation**: Full implementation of the Throttle rate aspects, including Scale and Clip settings, to provide users with more control over throttle responsiveness.
+
+- **Non-Flight Triggers**: Implementing a system for non-flight triggers, allowing users to set up custom actions to be performed from the controller, such as Start/Stop, camera angle, "fire", etc.
+  
+- **Presets for Rates**: Introducing a presets feature within the Rates control, allowing users to save and quickly switch between different sensitivity and responsiveness settings tailored to their preferences.
+
+- **Open to Suggestions**: I welcome feedback and suggestions from users to enhance the functionality and usability of DroneCam Plus. If you have ideas for new features or improvements, please feel free to reach out!
+
+
 ## Troubleshooting
 
 If you encounter issues:
