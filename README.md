@@ -48,21 +48,21 @@ Controls can be mapped differently as needed and the RC controls may be expanded
 ### Sidebar
 The DroneCam Plus sidebar provides quick access to the main controls and settings for the addon. Here, you can find:
 
-    - **Main Controls**: Start or stop the DroneCam functionality with a single click. If the DroneCam is currently running, the button will indicate how to stop it (Right Click or Esc).
-    - **DroneCam Settings**: Access the preferences for configuring the addon.
+- **Main Controls**: Start or stop the DroneCam functionality with a single click. If the DroneCam is currently running, the button will indicate how to stop it (Right Click or Esc).
+- **DroneCam Settings**: Access the preferences for configuring the addon.
 
-    ### Preferences
-    In the Preferences section, you can customize various settings related to input methods and function mappings:
+### Preferences
+In the Preferences section, you can customize various settings related to input methods and function mappings:
 
-    - **Input Method**: Choose between **XInput** (for Xbox controllers) and **RC Input** (for RC transmitters).
-    - **Device Selection**: If using RC Input, select your currently connected RC device from the available options.
-    - **Function Mapping**: Assign specific functions to the joystick axes and buttons. You can customize the mappings for:
-    - Left Thumb Y
-    - Left Thumb X
-    - Right Thumb Y
-    - Right Thumb X
-    - **Channel Mapping**: Configure the functions for each RC channel (up to 18 channels). You can enable or disable channels and assign specific functions to each.
-    - **Sensitivity Settings**: Adjust the sensitivity for each control type (RC and XInput) to fine-tune the responsiveness of the controls.
+- **Input Method**: Choose between **XInput** (for Xbox controllers) and **RC Input** (for RC transmitters).
+- **Device Selection**: If using RC Input, select your currently connected RC device from the available options.
+- **Function Mapping**: Assign specific functions to the joystick axes and buttons. You can customize the mappings for:
+- Left Thumb Y
+- Left Thumb X
+- Right Thumb Y
+- Right Thumb X
+- **Channel Mapping**: Configure the functions for each RC channel (up to 18 channels). You can enable or disable channels and assign specific functions to each.
+- **Sensitivity Settings**: Adjust the sensitivity for each control type (RC and XInput) to fine-tune the responsiveness of the controls.
 
 This UI structure allows for a streamlined experience, making it easy to set up and customize your DroneCam Plus controls according to your preferences.
 
