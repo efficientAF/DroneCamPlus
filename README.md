@@ -1,46 +1,86 @@
-# DroneCam
+# DroneCam Plus
 
-This is a Blender addon to fly a camera like a drone using a Xbox360 gamepad as input. Only work on Windows.
+**DroneCam Plus** is a Blender addon that allows you to fly a camera like a drone using an Xbox360 gamepad or an RC remote as input. This project builds upon the functionality of the DroneCam addon, enhancing the user experience with new features and improved controls.
 
-Why? It's fun, it makes for realistic camera movements, it's fast. Add the drone, click record, fly around the scene, and then render the results.
+## Key Features
+- **Easy Setup**: Plug in the controller and launch Blender.
+- **Simple Installation**: Install the zip file as you would with any addon.
+- **Recording Capabilities**: Click "Add DroneCam Plus" to start flying and recording inputs.
+- **Physics Parameters**: Change physics parameters on the Drone object Geometry Nodes modifier for customized flight behavior.
+- **Manual Control**: Manually rotate the camera on the X-axis to control tilt aggressiveness.
+- **Input Mapping**: Map the controller inputs to the different controls.
+- **Rate Control**: Adjust the sensitivity and responsiveness of the controls for a more tailored experience.
 
-It relies on a Physic Simulation made in Geometry Nodes to handle the flying of the drone that the camera attach to.
+## Compatibility and Goals
 
-DroneCam is a fork of XinputReader: https://github.com/Erindale/XinputReader which handle all the gamepad inputs. 
+### Backward Compatibility
+**DroneCam Plus** is designed to maintain backward compatibility with existing Blend files created using the original DroneCam addon. Users should be able to open projects using the Geometry Nodes setup made for the original DroneCam addon without issues.
 
-# How To Use
+### Main Goals of DroneCam Plus
+The primary objectives of this fork include:
 
-Plug the controller and launch Blender
+- **Modularization**: Enhancing the structure of the code to allow for easier updates and maintenance using LLM's. This will facilitate the addition of new features in the future without disrupting existing functionality.
+- **Added Inputs**: Introducing new input methods, primarily RC Remotes used in the hobby.
+- **Rate Controls**: Implementing Rate controls for a more authentic feel, allowing users to fine-tune their experience.
+- **Future Enhancements**: Keeping the door open for additional features and improvements based on user feedback and technological advancements.
 
-Install the zip file as you would with any addon
+### Controls
+- **Left Joystick Y** -> Throttle  
+- **Left Joystick X** -> Yaw  
+- **Right Joystick Y** -> Pitch  
+- **Right Joystick X** -> Roll
 
-Click Add DroneCam
+Controls can be mapped differently as needed and the RC controls may be expanded later to include using the additional channels for various things like Start/Stop or other things. 
 
-Click Start/Stop to start flying and recording inputs. You can click it again to pause.
+## How To Use DroneCam Plus
 
-Right Click Start/Stop to stop the recording
+1. Install the zip file as you would with any addon.
+2. Start Blender and plug in your controller.
+3. Select your input method: XInput or RC Input.
+4. Set up the mappings if they are not correct.
+5. Click "Start/Stop" to begin flying, left click to pause.
+6. Click "Add DroneCam" if there is no DroneCam object in your scene.
+7. To stop the recording, right click the Start/Stop button or Esc.
+8. Play the timeline from the first frame to see the results.
 
-Play the timeline from the first frame to see the results
+## UI Overview
 
-You can change physics parameters on the Drone object Geometry Nodes modifier.
+### Sidebar
+The DroneCam Plus sidebar provides quick access to the main controls and settings for the addon. Here, you can find:
 
-You can manually rotate the camera on the X axis to control the tilt aggressiveness.
+    - **Main Controls**: Start or stop the DroneCam functionality with a single click. If the DroneCam is currently running, the button will indicate how to stop it (Right Click or Esc).
+    - **DroneCam Settings**: Access the preferences for configuring the addon.
 
-If things go wrong and it's not working anymore:
-- Delete the DroneCam Collection and all it's content
-- Purge Unused Data (File -> Cleanup)
-- Click the Add DroneCam button and everything should work again
+    ### Preferences
+    In the Preferences section, you can customize various settings related to input methods and function mappings:
 
-# Controls
+    - **Input Method**: Choose between **XInput** (for Xbox controllers) and **RC Input** (for RC transmitters).
+    - **Device Selection**: If using RC Input, select your currently connected RC device from the available options.
+    - **Function Mapping**: Assign specific functions to the joystick axes and buttons. You can customize the mappings for:
+    - Left Thumb Y
+    - Left Thumb X
+    - Right Thumb Y
+    - Right Thumb X
+    - **Channel Mapping**: Configure the functions for each RC channel (up to 18 channels). You can enable or disable channels and assign specific functions to each.
+    - **Sensitivity Settings**: Adjust the sensitivity for each control type (RC and XInput) to fine-tune the responsiveness of the controls.
 
-Left Joystick Y -> Throttle  
-Left Joystick X -> Yaw  
-Right Joystick Y -> Pitch  
-Right Joystick X -> Roll  
+This UI structure allows for a streamlined experience, making it easy to set up and customize your DroneCam Plus controls according to your preferences.
 
-# Links
+## Troubleshooting
 
-[Gumroad Page for DroneCam](https://globglob.gumroad.com/l/dronecam-blender-addon)
-[Youtube channel](https://www.youtube.com/@globglob3D)
-[Twitter](https://x.com/globglob3D)
+If you encounter issues:
+- Delete the DroneCam Collection and all its content.
+- Purge Unused Data (File -> Cleanup).
+- Click the "Add DroneCam Plus" button, and everything should work again.
 
+## Links
+- [DroneCam Plus Repository](https://github.com/efficientAF/DroneCamPlus)
+
+## Original Addon Links
+- [DroneCam Repository](https://github.com/globglob3D/DroneCam)
+- [Gumroad Page for DroneCam](https://globglob.gumroad.com/l/dronecam-blender-addon)
+- [YouTube Channel](https://www.youtube.com/@globglob3D)
+- [Twitter](https://x.com/globglob3D)
+
+## Acknowledgments
+This project is built upon the foundation laid by the DroneCam addon. Special thanks to [Arthur Blaquart (globglob3D)](https://github.com/globglob3D) for their work and inspiration.
